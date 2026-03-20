@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Earthquake Analysis - Home</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="nav-placeholder"></div>
+
+    <div id="main-content" class="container hidden">
+      <header class="dashboard-header">
+        <h1>Seismic Activity & Human Impact</h1>
+        <div class="header-line"></div>
+      </header>
+
+      <section class="intro-section">
+        <p>
+          Geological research indicates that while most earthquakes are natural,
+          human activities—such as
+          <strong
+            >fracking, large-scale mining, and reservoir-induced
+            seismicity</strong
+          >—can significantly destabilize the Earth's crust. By injecting
+          high-pressure fluids or removing massive amounts of rock, we
+          inadvertently lubricate fault lines or alter stress distributions.
+        </p>
+      </section>
+
+      <div class="toggle-container">
+        <button id="toggleViewBtn" class="btn-accent">
+          Switch to Pie Charts
+        </button>
+      </div>
+
+      <main class="stacked-graph-container">
+        <div class="graph-card">
+          <div class="card-header">
+            <h3>Geographic Distribution (By Country)</h3>
+            <button class="view-btn" onclick="openImage('countryGraph')">
+              View Full Size
+            </button>
+          </div>
+          <div class="image-wrapper">
+            <img
+              id="countryGraph"
+              src="/Graphs/country_frequency_bar.png"
+              alt="Country Analysis"
+            />
+          </div>
+        </div>
+
+        <div class="graph-card">
+          <div class="card-header">
+            <h3>Primary Seismic Triggers (By Cause)</h3>
+            <button class="view-btn" onclick="openImage('causeGraph')">
+              View Full Size
+            </button>
+          </div>
+          <div class="image-wrapper">
+            <img
+              id="causeGraph"
+              src="/Graphs/main_cause_frequency_bar.png"
+              alt="Cause Analysis"
+            />
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
