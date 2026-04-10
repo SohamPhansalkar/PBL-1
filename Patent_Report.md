@@ -47,28 +47,33 @@ The present invention provides a software framework (referred to as "EcoPulse") 
 5. Provide a secure, web-based interface with user authentication for authorized researchers and environmental agencies to access these insights.
 
 ### BRIEF DESCRIPTION OF THE DRAWINGS
-The features of the present invention will become more fully apparent from the following description, taken in conjunction with the accompanying graphical outputs:
-- **Figure 1:** A Bar Chart illustrating the frequency of human-induced earthquakes across different countries.
-- **Figure 2:** A Pie Chart showing the percentage distribution of seismic events categorized by their primary human-induced cause.
-- **Figure 3:** A screenshot of the web-based dashboard showing the integrated visualization interface.
+The features of the present invention will become more fully apparent from the following description and appended claims, taken in conjunction with the accompanying drawings. In the drawings, like numerals represent like components throughout the several views:
+- **FIG. 1** is a block diagram illustrating the high-level system architecture, showing the interconnection between multiple user devices (106-1 through 106-n) and the backend infrastructure (100) via a network (104);
+- **FIG. 2** is a schematic diagram illustrating the component interaction flow from the frontend web interface to the database, including API communication layers;
+- **FIG. 3** is a block diagram detailing the data processing and storage architecture, specifically the utilization of datasets during the automated processing phase;
+- **FIG. 4** is a graphical representation in the form of a bar chart illustrating the frequency of human-induced earthquakes across different geographic regions; and
+- **FIG. 5** is a graphical representation in the form of a pie chart showing the percentage distribution of seismic events categorized by their primary human-induced cause.
 
 ### DETAILED DESCRIPTION OF THE INVENTION
 The invention is implemented using a modular architecture comprising a Data Ingestion Module, a Cleaning and Standardization Module, a Statistical Processing Module, and a Visualization Layer.
 
-**1. Data Ingestion and Storage:**
-The system utilizes a data ingestion module configured to read structured data files (such as .xlsx or .csv). In the preferred embodiment, the system processes a dataset containing columns for "Project start date," "Project end date," "Country," and "Earthquake cause (main class)."
+**1. System Architecture (FIG. 1 and FIG. 2):**
+Referring to FIG. 1, the high-level architecture includes a plurality of user devices (106-1, 106-2, ..., 106-n) connected via a communication network (104) to the backend infrastructure (100). As illustrated in FIG. 2, the interaction flow moves from the web interface and frontend components through API calls to the backend and eventually to the database, ensuring seamless data communication across the system.
 
-**2. Cleaning and Standardization Module:**
-A critical component of the invention is the automated cleaning module. It employs regular expressions to identify and extract year and date components from inconsistent strings (e.g., handling "1970s", bracketed dates, and varied separators). The module standardizes all dates into a uniform DD-MM-YYYY format using a parser that defaults to a specific epoch for incomplete entries, ensuring temporal consistency across the dataset.
+**2. Data Ingestion, Storage, and Processing (FIG. 3):**
+Referring to FIG. 3, the system utilizes a data ingestion and processing module configured to handle structured seismic datasets. The backend processes the "Data Set" (108) and commits results to the database (112). In the preferred embodiment, the system processes datasets containing "Project start date," "Project end date," "Country," and "Earthquake cause."
 
-**3. Statistical Processing and Categorization:**
-The system uses high-performance data structures (such as Pandas DataFrames) to aggregate seismic occurrences. It categorizes events by their "Main Cause" and "Country." It also implements threshold-based filtering (e.g., grouping countries with fewer than 5 occurrences into an "Others" category) to ensure the clarity of the resulting visualizations.
+**3. Cleaning and Standardization Module:**
+A critical component of the invention is the automated cleaning module. It employs regular expressions to identify and extract year and date components from inconsistent strings (e.g., handling "1970s", bracketed dates, and varied separators). The module standardizes all dates into a uniform DD-MM-YYYY format, ensuring temporal consistency.
 
-**4. Visualization Engine:**
-The visualization module utilizes plotting libraries (such as Matplotlib and NumPy) to generate high-resolution PNG images. It maps counts to specific colormaps (e.g., 'Spectral', 'Set3') to provide visually distinct segments for different causes and regions.
+**4. Statistical Processing and Categorization:**
+The system uses high-performance data structures to aggregate seismic occurrences. It categorizes events by "Main Cause" and "Country" and implements threshold-based filtering to group low-frequency occurrences into an "Others" category, enhancing clarity in FIG. 4 and FIG. 5.
 
-**5. Web Interface and Security:**
-The backend is powered by a FastAPI framework, providing RESTful endpoints for the frontend. A secure authentication module (User.py) manages user registrations and logins, employing encryption for password storage to protect sensitive research data.
+**5. Visualization Engine (FIG. 4 and FIG. 5):**
+The visualization module utilizes plotting libraries to generate graphical representations of the data. FIG. 4 depicts a frequency bar chart of seismic occurrences by region, while FIG. 5 illustrates the percentage distribution of causes in a pie chart format, enabling multi-dimensional analysis.
+
+**6. Web Interface and Security:**
+The backend is powered by a FastAPI framework. A secure authentication module (User.py) manages registrations and logins, employing encryption to protect sensitive data.
 
 ---
 
