@@ -13,6 +13,10 @@
   <body>
     <div id="nav-placeholder"></div>
 
+    <div id="loading-container">
+      <div class="loader"></div>
+    </div>
+
     <div id="main-content" class="container hidden">
       <header class="dashboard-header">
         <h1>Seismic Activity & Human Impact</h1>
@@ -38,7 +42,101 @@
         </button>
       </div>
 
-      <main class="stacked-graph-container">
+      <!-- Country Selection Dropdown -->
+      <div class="dropdown-container">
+        <select id="countrySelect" class="form-select custom-select">
+          <option value="">Select a Country for Detailed Analysis</option>
+          <option value="Algeria">Algeria</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Australia">Australia</option>
+          <option value="Brazil">Brazil</option>
+          <option value="Canada">Canada</option>
+          <option value="China">China</option>
+          <option value="Czech Republic">Czech Republic</option>
+          <option value="Finland">Finland</option>
+          <option value="France">France</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Germany">Germany</option>
+          <option value="India">India</option>
+          <option value="Iran">Iran</option>
+          <option value="Iraq">Iraq</option>
+          <option value="Israel">Israel</option>
+          <option value="Italy">Italy</option>
+          <option value="Japan">Japan</option>
+          <option value="Kazakhstan">Kazakhstan</option>
+          <option value="Mexico">Mexico</option>
+          <option value="Netherlands">Netherlands</option>
+          <option value="New Zealand">New Zealand</option>
+          <option value="Norway">Norway</option>
+          <option value="Philippines">Philippines</option>
+          <option value="Poland">Poland</option>
+          <option value="Romania">Romania</option>
+          <option value="Russia">Russia</option>
+          <option value="South Africa">South Africa</option>
+          <option value="South Korea">South Korea</option>
+          <option value="Spain">Spain</option>
+          <option value="Sweden">Sweden</option>
+          <option value="Switzerland">Switzerland</option>
+          <option value="Turkey">Turkey</option>
+          <option value="UK">UK</option>
+          <option value="USA">USA</option>
+          <option value="Uzbekistan">Uzbekistan</option>
+        </select>
+      </div>
+
+      <!-- Detailed Country Graphs Section (Hidden by default) -->
+      <div id="country-detailed-section" class="hidden">
+        <header class="dashboard-header mt-5">
+          <h2 id="selectedCountryTitle">Detailed Analysis</h2>
+          <div class="header-line"></div>
+        </header>
+
+        <main class="stacked-graph-container">
+          <!-- Graph Card 1 -->
+          <div class="graph-card">
+            <div class="card-header">
+              <h3>Seismic Cause Distribution</h3>
+              <button class="view-btn" onclick="openImage('countryCauseGraph')">
+                View Full Size
+              </button>
+            </div>
+            <div class="image-wrapper" id="causeWrapper">
+              <!-- Loader inside the wrapper -->
+              <div class="card-loader-container" id="causeLoader">
+                <div class="loader"></div>
+                <p class="loader-text">Analyzing cause patterns...</p>
+              </div>
+              <img id="countryCauseGraph" src="" alt="Country Cause Analysis" />
+            </div>
+          </div>
+
+          <!-- Graph Card 2 -->
+          <div class="graph-card">
+            <div class="card-header">
+              <h3>Detailed Cause Distribution (Subclass)</h3>
+              <button
+                class="view-btn"
+                onclick="openImage('countrySubCauseGraph')"
+              >
+                View Full Size
+              </button>
+            </div>
+            <div class="image-wrapper" id="subCauseWrapper">
+              <!-- Loader inside the wrapper -->
+              <div class="card-loader-container" id="subCauseLoader">
+                <div class="loader"></div>
+                <p class="loader-text">Fetching subclass data...</p>
+              </div>
+              <img
+                id="countrySubCauseGraph"
+                src=""
+                alt="Country Sub-Cause Analysis"
+              />
+            </div>
+          </div>
+        </main>
+      </div>
+
         <div class="graph-card">
           <div class="card-header">
             <h3>Geographic Distribution (By Country)</h3>

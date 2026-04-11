@@ -65,6 +65,7 @@ async function handleAuth(event, type) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const loadingContainer = document.getElementById("loading-container");
   const mainContent = document.getElementById("main-content");
   const toggleBtn = document.getElementById("toggleViewBtn");
   const countryImg = document.getElementById("countryGraph");
@@ -75,19 +76,78 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!email && mainContent) {
     // Only redirect if we are actually on the Home page (where main-content exists)
     alert("Please log in to view analysis.");
-    window.location.href = "signIn.html";
+    window.location.href = "LogIn.html";
     return;
-  } else if (mainContent) {
-    mainContent.classList.remove("hidden");
   }
 
-  // 2. Graph Toggle Logic
+  // 2. Loading Logic
+  if (loadingContainer && mainContent) {
+    // Show loader, hide content
+    loadingContainer.classList.remove("hidden");
+    mainContent.classList.add("hidden");
+
+    setTimeout(() => {
+      loadingContainer.classList.add("hidden");
+      mainContent.classList.remove("hidden"); // Show content
+    }, 2500); // 2.5-second delay
+  }
+
+  // 4. Country Dropdown Selection
+  const countrySelect = document.getElementById("countrySelect");
+  const detailedSection = document.getElementById("country-detailed-section");
+  const causeWrapper = document.getElementById("causeWrapper");
+  const subCauseWrapper = document.getElementById("subCauseWrapper");
+  const causeLoader = document.getElementById("causeLoader");
+  const subCauseLoader = document.getElementById("subCauseLoader");
+  const countryTitle = document.getElementById("selectedCountryTitle");
+  const countryCauseImg = document.getElementById("countryCauseGraph");
+  const countrySubCauseImg = document.getElementById("countrySubCauseGraph");
+
+  if (countrySelect && detailedSection) {
+    countrySelect.addEventListener("change", (e) => {
+      const selectedCountry = e.target.value;
+      if (selectedCountry) {
+        // Update Title
+        countryTitle.textContent = `Detailed Analysis: ${selectedCountry}`;
+
+        // Sanitize for paths (matches sanitization in dataProcessing2.py)
+        const safeName = selectedCountry
+          .replace("/", "_")
+          .replace("\\", "_")
+          .trim();
+
+        // Update Image Paths
+        countryCauseImg.src = `/Graphs/Graphs2/${safeName}/${safeName}_cause_frequency.png`;
+        countrySubCauseImg.src = `/Graphs/Graphs2/${safeName}/${safeName}_sub_cause_frequency.png`;
+
+        // Reveal Section and show loaders inside the wrappers
+        detailedSection.classList.remove("hidden");
+        causeLoader.classList.remove("hidden");
+        subCauseLoader.classList.remove("hidden");
+        causeWrapper.classList.add("loading");
+        subCauseWrapper.classList.add("loading");
+
+        detailedSection.scrollIntoView({ behavior: "smooth" });
+
+        // Switch from loader to content after 2.5 seconds
+        setTimeout(() => {
+          causeLoader.classList.add("hidden");
+          subCauseLoader.classList.add("hidden");
+          causeWrapper.classList.remove("loading");
+          subCauseWrapper.classList.remove("loading");
+        }, 2500);
+      } else {
+        detailedSection.classList.add("hidden");
+      }
+    });
+  }
+
+  // 3. Graph Toggle Logic
   if (toggleBtn && countryImg && causeImg) {
     let currentMode = "bar";
 
     toggleBtn.addEventListener("click", () => {
       // Logic for switching paths
-      // Note: Removed the leading '/' to ensure consistency with your folder structure
       if (currentMode === "bar") {
         countryImg.src = "/Graphs/country_frequency_pie.png";
         causeImg.src = "/Graphs/main_cause_frequency_pie.png";
@@ -100,7 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMode = "bar";
       }
 
-      // Console log to help you debug in the browser (F12 > Console)
       console.log(
         `Switched to ${currentMode}. Country path: ${countryImg.src}`,
       );

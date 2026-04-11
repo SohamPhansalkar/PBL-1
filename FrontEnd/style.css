@@ -229,7 +229,7 @@ p {
 }
 
 .hidden {
-  display: none; /* This ensures the 'hidden' class actually hides content */
+  display: none !important; /* This ensures the 'hidden' class actually hides content */
 }
 
 header h1 {
@@ -274,6 +274,45 @@ header h1 {
 #toggleViewBtn:hover {
   transform: scale(1.05);
   filter: brightness(1.1);
+}
+
+/* Dropdown Container */
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.custom-select {
+  background-color: var(--glass);
+  color: var(--light);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+  background-color: rgba(26, 26, 46, 0.8);
+}
+
+.custom-select option {
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
 }
 
 /* Graph Grid Layout */
@@ -376,18 +415,48 @@ header h1 {
 
 .image-wrapper {
   width: 100%;
-  background: #fff; /* White background for the graph itself makes text readable */
+  aspect-ratio: 16 / 9; /* Consistent aspect ratio */
+  background: #fff; /* White background for the graph itself */
   padding: 1rem;
   border-radius: 12px;
   display: flex;
   justify-content: center;
+  align-items: center; /* Center the loader */
+  position: relative;
+  overflow: hidden;
+  min-height: 300px; /* Minimum height for placeholder */
 }
 
 .image-wrapper img {
   width: 100%;
-  height: auto;
-  max-height: 700px; /* Stops pie charts from being too tall */
+  height: 100%;
   object-fit: contain;
+}
+
+.card-loader-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff; /* Match image wrapper background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.image-wrapper.loading img {
+  opacity: 0;
+}
+
+/* Detailed Loader Specifics */
+.loader-text {
+  color: #333;
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
 }
 
 /* Premium Buttons */
@@ -420,4 +489,30 @@ header h1 {
 
 .view-btn:hover {
   background: var(--primary);
+}
+
+/* Loading Bar Styles */
+#loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.loader {
+  border: 8px solid rgba(255, 255, 255, 0.2);
+  border-top: 8px solid var(--primary);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
