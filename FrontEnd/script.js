@@ -170,6 +170,148 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Failed to load: " + countryImg.src);
     causeImg.onerror = () => console.error("Failed to load: " + causeImg.src);
   }
+
+  // 5. Upload Dataset Redirection (Home Page)
+  const goToUploadBtn = document.getElementById("goToUploadBtn");
+  if (goToUploadBtn) {
+    goToUploadBtn.addEventListener("click", () => {
+      window.location.href = "customData.html";
+    });
+  }
+
+  // 6. Custom Data Page Upload Logic
+  const customDatasetInput = document.getElementById("customDatasetUpload");
+  if (customDatasetInput) {
+    customDatasetInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      const statusText = document.getElementById("fileStatus");
+      const email = localStorage.getItem("email");
+
+      if (!email) {
+        alert("Session expired. Please log in.");
+        window.location.href = "LogIn.html";
+        return;
+      }
+
+      if (file) {
+        if (!file.name.endsWith(".xlsx")) {
+          alert("Error: Only .xlsx format is accepted.");
+          customDatasetInput.value = "";
+          return;
+        }
+
+        if (statusText) {
+          statusText.textContent = `Uploading: ${file.name}...`;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("email", email);
+
+        try {
+          const response = await fetch(
+            "http://127.0.0.1:8000/upload-custom-dataset",
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+          const data = await response.json();
+
+          if (response.ok) {
+            if (statusText) {
+              statusText.textContent = "Data processed successfully!";
+            }
+            alert("Success: Graphs have been generated for your dataset.");
+
+            // Store session data for results rendering
+            localStorage.setItem(
+              "customCountries",
+              JSON.stringify(data.countries),
+            );
+            localStorage.setItem("customEmailPrefix", data.emailPrefix);
+
+            // Trigger UI update for results (logic to be added to customData.html)
+            location.reload();
+          } else {
+            alert("Upload failed: " + data.detail);
+            if (statusText) statusText.textContent = "Error occurred.";
+          }
+        } catch (error) {
+          console.error("Upload error:", error);
+          alert("Could not connect to the server.");
+        }
+      }
+    });
+  }
+
+  // 7. Custom Results Logic (On page load)
+  const resultsSection = document.getElementById("customResultsSection");
+  const customSelector = document.getElementById("customCountrySelect");
+  const savedCountries = localStorage.getItem("customCountries");
+  const emailPrefix = localStorage.getItem("customEmailPrefix");
+
+  if (resultsSection && savedCountries && emailPrefix) {
+    resultsSection.classList.remove("hidden");
+    const countries = JSON.parse(savedCountries);
+
+    // Filter out duplicates and empty
+    const uniqueCountries = [...new Set(countries)].filter((c) => c);
+
+    uniqueCountries.forEach((country) => {
+      const opt = document.createElement("option");
+      opt.value = country;
+      opt.textContent = country;
+      customSelector.appendChild(opt);
+    });
+
+    customSelector.addEventListener("change", (e) => {
+      const selected = e.target.value;
+      if (selected) {
+        const safeCountry = selected
+          .replace("/", "_")
+          .replace("\\", "_")
+          .trim();
+        const mainImg = document.getElementById("customCauseGraph");
+        const subImg = document.getElementById("customSubCauseGraph");
+        const mainLoader = document.getElementById("customCauseLoader");
+        const subLoader = document.getElementById("customSubCauseLoader");
+
+        // We are in FrontEnd/ folder.
+        // Paths relative to FrontEnd/ index.html or Home.html:
+        // Graphs are in ../Graphs/CustomGraphs/
+        mainImg.src = `../Graphs/CustomGraphs/${emailPrefix}_${safeCountry}/${safeCountry}_main_cause.png?t=${new Date().getTime()}`;
+        subImg.src = `../Graphs/CustomGraphs/${emailPrefix}_${safeCountry}/${safeCountry}_sub_cause.png?t=${new Date().getTime()}`;
+
+        console.log("Loading Main Graph:", mainImg.src);
+        console.log("Loading Sub Graph:", subImg.src);
+
+        mainLoader.classList.remove("hidden");
+        subLoader.classList.remove("hidden");
+        mainImg.classList.add("hidden");
+        subImg.classList.add("hidden");
+
+        // Error detection for images
+        mainImg.onerror = () => {
+          console.error("404: Main Graph not found at " + mainImg.src);
+          mainLoader.textContent = "Failed to load graph.";
+        };
+        subImg.onerror = () => {
+          console.error("404: Sub Graph not found at " + subImg.src);
+          subLoader.textContent = "Failed to load graph.";
+        };
+
+        // Reset display after a small delay to ensure loading state shows
+        setTimeout(() => {
+          mainLoader.classList.add("hidden");
+          subLoader.classList.add("hidden");
+          mainImg.classList.remove("hidden");
+          subImg.classList.remove("hidden");
+        }, 1500);
+      }
+    });
+  }
 });
 
 // Function to load components (Nav/Footer)

@@ -12,6 +12,7 @@ dependencies = [
     "pandas>=3.0.1",
     "pydantic[email]>=2.12.5",
     "python-dateutil>=2.9.0.post0",
+    "python-multipart>=0.0.26",
     "seaborn>=0.13.2",
     "uvicorn>=0.42.0",
 ]

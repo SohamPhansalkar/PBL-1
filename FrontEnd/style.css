@@ -491,12 +491,123 @@ header h1 {
   background: var(--primary);
 }
 
-/* Loading Bar Styles */
-#loading-container {
+/* Custom Upload Section */
+.upload-btn-placeholder {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.full-width-mobile {
+  min-width: 300px;
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Slightly darker background */
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  padding: 2.5rem;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+  text-align: center;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 2.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close-modal:hover {
+  color: #ff4d4d;
+}
+
+.warning-text {
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-size: 1rem !important;
+  border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+.requirements-box {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 15px;
+  text-align: left;
+  border-left: 5px solid var(--primary);
+}
+
+.requirements-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: var(--light);
+}
+
+.requirements-box ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1rem;
+}
+
+.requirements-box li {
+  margin-bottom: 0.5rem;
+  padding-left: 20px;
+  position: relative;
+}
+
+.requirements-box li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+.format-note {
+  margin-top: 1rem;
+  font-size: 0.9rem !important;
+  opacity: 0.8 !important;
+}
+
+.upload-form {
+  margin-top: 2rem;
 }
 
 .loader {

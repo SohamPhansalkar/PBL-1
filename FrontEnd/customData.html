@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Earthquake Analysis - Custom Dataset</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="nav-placeholder"></div>
+
+    <div class="container mt-5">
+      <header class="dashboard-header">
+        <h1>Custom Dataset Insight</h1>
+        <p class="subtitle text-center">
+          Analyze your own geological data patterns
+        </p>
+        <div class="header-line"></div>
+      </header>
+
+      <div class="auth-container" style="min-height: auto; margin-bottom: 5rem">
+        <div class="auth-card" style="max-width: 600px">
+          <div class="modal-header">
+            <h2 style="color: var(--primary)">⚠️ Data Upload Guidelines</h2>
+          </div>
+          <div class="modal-body">
+            <p class="warning-text">
+              <strong>CRITICAL:</strong> Do not upload any inappropriate,
+              offensive, or non-seismic related data. All uploads are monitored.
+            </p>
+            <div class="requirements-box">
+              <h3>Required Dataset Fields:</h3>
+              <ul style="color: var(--light); opacity: 0.9">
+                <li style="margin-bottom: 0.5rem"><strong>Country</strong></li>
+                <li style="margin-bottom: 0.5rem">
+                  <strong>Earthquake Cause (Main)</strong>
+                </li>
+                <li style="margin-bottom: 0.5rem">
+                  <strong>Earthquake Cause (Sub-class)</strong>
+                </li>
+              </ul>
+              <p class="format-note">
+                Supported Format: <strong>.xlsx only</strong>
+              </p>
+            </div>
+
+            <div class="upload-form mt-4">
+              <input
+                type="file"
+                id="customDatasetUpload"
+                accept=".xlsx"
+                class="hidden"
+              />
+              <button
+                class="btn-primary full-width"
+                onclick="document.getElementById('customDatasetUpload').click()"
+              >
+                Select & Process .xlsx File
+              </button>
+              <p
+                id="fileStatus"
+                class="mt-3"
+                style="
+                  font-size: 0.9rem;
+                  color: var(--primary);
+                  font-weight: 500;
+                "
+              ></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: Custom Results Section -->
+      <div id="customResultsSection" class="hidden">
+        <div class="dropdown-container">
+          <select id="customCountrySelect" class="form-select custom-select">
+            <option value="">Select Country from your Dataset</option>
+          </select>
+        </div>
+
+        <main class="stacked-graph-container">
+          <!-- Main Cause Graph Card -->
+          <div class="graph-card">
+            <div class="card-header">
+              <h3>Custom Cause Distribution</h3>
+              <button class="view-btn" onclick="openImage('customCauseGraph')">
+                View Full Size
+              </button>
+            </div>
+            <div class="image-wrapper" id="customCauseWrapper">
+              <div class="card-loader-container hidden" id="customCauseLoader">
+                <div class="loader"></div>
+                <p class="loader-text">Loading custom pattern...</p>
+              </div>
+              <img id="customCauseGraph" src="" alt="Custom Cause Analysis" />
+            </div>
+          </div>
+
+          <!-- Sub Cause Graph Card -->
+          <div class="graph-card">
+            <div class="card-header">
+              <h3>Custom Sub-class Distribution</h3>
+              <button
+                class="view-btn"
+                onclick="openImage('customSubCauseGraph')"
+              >
+                View Full Size
+              </button>
+            </div>
+            <div class="image-wrapper" id="customSubCauseWrapper">
+              <div
+                class="card-loader-container hidden"
+                id="customSubCauseLoader"
+              >
+                <div class="loader"></div>
+                <p class="loader-text">Loading custom pattern...</p>
+              </div>
+              <img
+                id="customSubCauseGraph"
+                src=""
+                alt="Custom Sub-Cause Analysis"
+              />
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
